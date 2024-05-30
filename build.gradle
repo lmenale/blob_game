@@ -1,22 +1,14 @@
 plugins {
-    id 'com.gradle.build-scan' version '3.17.4'
-    id 'org.gradle.python' version '0.1.0'
+    id 'base'
 }
 
-buildScan {
-    licenseAgreementUrl = 'https://gradle.com/terms-of-service'
-    licenseAgree = 'yes'
-    tag 'engineering-manager'
+repositories {
+    jcenter()
 }
 
-python {
-    // Configure the Python plugin as needed
+task pythonBuild(type: Exec) {
+    description = 'Builds the Python project.'
+    commandLine 'python', 'setup.py', 'build'
 }
 
-tasks.register('runPythonScript', Exec) {
-    commandLine 'python', 'src/blob_game.py'
-}
-
-tasks.build {
-    dependsOn 'runPythonScript'
-}
+build.dependsOn pythonBuild
